@@ -1,5 +1,6 @@
 require 'pry'
 require 'hash_kit'
+require_relative 'hash_kit/test_objects'
 
 RSpec.configure do |config|
 

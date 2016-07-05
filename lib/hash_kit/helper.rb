@@ -15,7 +15,46 @@ module HashKit
       end
     end
 
+    def to_hash(obj)
+      hash = {}
+      obj.instance_variables.each do |key|
+        hash[key[1..-1].to_sym] = deeply_to_hash(obj.instance_variable_get(key))
+      end
+      hash
+    end
+
     private
+
+    # nodoc
+    def convert_hash_values(hash)
+      new_hash = {}
+      hash.each do |key, val|
+        new_hash[key] = deeply_to_hash(val)
+      end
+      new_hash
+    end
+
+    # nodoc
+    def convert_array_values(array)
+      new_array = []
+      array.each_index do |index|
+        new_array[index] = deeply_to_hash(array[index])
+      end
+      new_array
+    end
+
+    # nodoc
+    def deeply_to_hash(val)
+      if val.is_a?(Hash)
+        return convert_hash_values(val)
+      elsif val.is_a?(Array)
+        return convert_array_values(val)
+      elsif [String, Fixnum, Numeric, Date, DateTime, Time, Integer].include?(val.class)
+        val
+      else
+        return to_hash(val)
+      end
+    end
 
     def map_value_symbol(thing)
       case thing
