@@ -203,6 +203,14 @@ RSpec.describe HashKit::Helper do
       }
     end
 
+    let(:string_hash) do
+      {
+          'text' => 'abc',
+          'numeric' => 5,
+          'time' => Time.now
+      }
+    end
+
     let(:transforms) do
       [
         HashKit::TransformItem.new.tap do |entity|
@@ -217,12 +225,24 @@ RSpec.describe HashKit::Helper do
     end
 
     context 'simple hash' do
-      it 'should convert the hash to the expected class' do
-        obj = subject.from_hash(child_hash, TestEntity)
-        expect(obj).to be_a(TestEntity)
-        expect(obj.text).to eq(child_hash[:text])
-        expect(obj.numeric).to eq(child_hash[:numeric])
-        expect(obj.time).to eq(child_hash[:time])
+      context 'with symbol keys' do
+        it 'should convert the hash to the expected class' do
+          obj = subject.from_hash(child_hash, TestEntity)
+          expect(obj).to be_a(TestEntity)
+          expect(obj.text).to eq(child_hash[:text])
+          expect(obj.numeric).to eq(child_hash[:numeric])
+          expect(obj.time).to eq(child_hash[:time])
+        end
+      end
+
+      context 'with string keys' do
+        it 'should convert the hash to the expected class' do
+          obj = subject.from_hash(string_hash, TestEntity)
+          expect(obj).to be_a(TestEntity)
+          expect(obj.text).to eq(string_hash['text'])
+          expect(obj.numeric).to eq(string_hash['numeric'])
+          expect(obj.time).to eq(string_hash['time'])
+        end
       end
     end
 
