@@ -23,6 +23,27 @@ module HashKit
       hash
     end
 
+    def from_hash(hash, klass, transforms =  [])
+      obj = klass.new
+      hash.each do |k,v|
+        transform = transforms.detect { |t| t.key == k }
+        if transform != nil
+          if v.is_a?(Hash)
+            child = from_hash(v, transform.klass, transforms)
+            obj.instance_variable_set("@#{k}", child)
+          elsif v.is_a?(Array)
+            items = v.map do |i|
+              from_hash(i, transform.klass, transforms)
+            end
+            obj.instance_variable_set("@#{k}", items)
+          end
+        else
+          obj.instance_variable_set("@#{k}", v)
+        end
+      end
+      return obj
+    end
+
     private
 
     # nodoc

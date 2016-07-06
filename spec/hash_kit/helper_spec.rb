@@ -182,4 +182,66 @@ RSpec.describe HashKit::Helper do
     end
 
   end
+
+  describe '#from_hash' do
+
+    let(:child_hash) do
+      {
+          text: 'abc',
+          numeric: 5,
+          time: Time.now
+      }
+    end
+
+    let(:parent_hash) do
+      {
+          text: 'abc',
+          numeric: 5,
+          time: Time.now,
+          entity: child_hash,
+          entity_array: [child_hash, child_hash]
+      }
+    end
+
+    let(:transforms) do
+      [
+        HashKit::TransformItem.new.tap do |entity|
+          entity.key = :entity
+          entity.klass = TestEntity
+        end,
+        HashKit::TransformItem.new.tap do |entity|
+          entity.key = :entity_array
+          entity.klass = TestEntity
+        end
+      ]
+    end
+
+    context 'simple hash' do
+      it 'should convert the hash to the expected class' do
+        obj = subject.from_hash(child_hash, TestEntity)
+        expect(obj).to be_a(TestEntity)
+        expect(obj.text).to eq(child_hash[:text])
+        expect(obj.numeric).to eq(child_hash[:numeric])
+        expect(obj.time).to eq(child_hash[:time])
+      end
+    end
+
+    context 'complex hash' do
+      it 'should convert the hash to the expected class' do
+        obj = subject.from_hash(parent_hash, TestEntity, transforms)
+        expect(obj).to be_a(TestEntity)
+        expect(obj.text).to eq(parent_hash[:text])
+        expect(obj.numeric).to eq(parent_hash[:numeric])
+        expect(obj.time).to eq(parent_hash[:time])
+        expect(obj.entity).to be_a(TestEntity)
+        expect(obj.entity.text).to eq(parent_hash[:entity][:text])
+        expect(obj.entity.numeric).to eq(parent_hash[:entity][:numeric])
+        expect(obj.entity.time).to eq(parent_hash[:entity][:time])
+        expect(obj.entity_array.length).to eq(2)
+        expect(obj.entity_array[0]).to be_a(TestEntity)
+        expect(obj.entity_array[1]).to be_a(TestEntity)
+      end
+    end
+
+  end
 end
