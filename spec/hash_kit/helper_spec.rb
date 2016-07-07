@@ -189,7 +189,8 @@ RSpec.describe HashKit::Helper do
       {
           text: 'abc',
           numeric: 5,
-          time: Time.now
+          time: Time.now,
+          invalid_key: 5
       }
     end
 
@@ -199,7 +200,8 @@ RSpec.describe HashKit::Helper do
           numeric: 5,
           time: Time.now,
           entity: child_hash,
-          entity_array: [child_hash, child_hash]
+          entity_array: [child_hash, child_hash],
+          invalid_key: 5
       }
     end
 
@@ -207,7 +209,8 @@ RSpec.describe HashKit::Helper do
       {
           'text' => 'abc',
           'numeric' => 5,
-          'time' => Time.now
+          'time' => Time.now,
+          'invalid_key' => 5
       }
     end
 

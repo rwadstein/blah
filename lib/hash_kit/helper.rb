@@ -26,6 +26,9 @@ module HashKit
     def from_hash(hash, klass, transforms =  [])
       obj = klass.new
       hash.each do |k,v|
+        if !obj.respond_to?(k)
+          next
+        end
         transform = transforms.detect { |t| t.key == k }
         if transform != nil
           if v.is_a?(Hash)
