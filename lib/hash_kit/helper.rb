@@ -29,7 +29,7 @@ module HashKit
         if !obj.respond_to?(k)
           next
         end
-        transform = transforms.detect { |t| t.key == k }
+        transform = transforms.detect { |t| t.key.to_sym == k.to_sym }
         if transform != nil
           if v.is_a?(Hash)
             child = from_hash(v, transform.klass, transforms)
