@@ -190,7 +190,8 @@ RSpec.describe HashKit::Helper do
           text: 'abc',
           numeric: 5,
           time: Time.now,
-          invalid_key: 5
+          invalid_key: 5,
+          bool: true
       }
     end
 
@@ -201,7 +202,8 @@ RSpec.describe HashKit::Helper do
           time: Time.now,
           entity: child_hash,
           entity_array: [child_hash, child_hash],
-          invalid_key: 5
+          invalid_key: 5,
+          bool: true
       }
     end
 
@@ -210,7 +212,8 @@ RSpec.describe HashKit::Helper do
           'text' => 'abc',
           'numeric' => 5,
           'time' => Time.now,
-          'invalid_key' => 5
+          'invalid_key' => 5,
+          'bool' => true
       }
     end
 
@@ -235,6 +238,7 @@ RSpec.describe HashKit::Helper do
           expect(obj.text).to eq(child_hash[:text])
           expect(obj.numeric).to eq(child_hash[:numeric])
           expect(obj.time).to eq(child_hash[:time])
+          expect(obj.bool).to eq(child_hash[:bool])
         end
       end
 
@@ -245,6 +249,7 @@ RSpec.describe HashKit::Helper do
           expect(obj.text).to eq(string_hash['text'])
           expect(obj.numeric).to eq(string_hash['numeric'])
           expect(obj.time).to eq(string_hash['time'])
+          expect(obj.bool).to eq(string_hash['bool'])
         end
       end
     end
