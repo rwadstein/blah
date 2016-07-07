@@ -230,6 +230,20 @@ RSpec.describe HashKit::Helper do
       ]
     end
 
+    context 'nil hash' do
+      it 'should return a new class instance' do
+        obj = subject.from_hash(nil, TestEntity)
+        expect(obj).to be_a(TestEntity)
+      end
+    end
+
+    context 'empty hash' do
+      it 'should return a new class instance' do
+        obj = subject.from_hash({}, TestEntity)
+        expect(obj).to be_a(TestEntity)
+      end
+    end
+
     context 'simple hash' do
       context 'with symbol keys' do
         it 'should convert the hash to the expected class' do

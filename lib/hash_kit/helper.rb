@@ -25,6 +25,10 @@ module HashKit
 
     def from_hash(hash, klass, transforms =  [])
       obj = klass.new
+      if hash ==nil || hash == {}
+        return obj
+      end
+
       hash.each do |k,v|
         if !obj.respond_to?(k)
           next
