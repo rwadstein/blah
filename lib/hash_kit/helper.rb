@@ -77,7 +77,7 @@ module HashKit
         return convert_hash_values(val)
       elsif val.is_a?(Array)
         return convert_array_values(val)
-      elsif [String, Fixnum, Numeric, Date, DateTime, Time, Integer, TrueClass, FalseClass].include?(val.class)
+      elsif [String, Fixnum, Numeric, Date, DateTime, Time, Integer, TrueClass, FalseClass, NilClass].include?(val.class)
         val
       else
         return to_hash(val)
