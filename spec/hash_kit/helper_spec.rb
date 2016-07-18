@@ -181,6 +181,21 @@ RSpec.describe HashKit::Helper do
      end
     end
 
+
+    context 'when one value is nil' do
+      let(:child_entity) do
+        TestEntity.new.tap do |entity|
+          entity.text = ''
+          entity.numeric = nil
+        end
+      end
+
+      it 'creates a hash with the nil value' do
+        hash = subject.to_hash(child_entity)
+        expect(hash[:text   ]).to eq('')
+        expect(hash[:numeric]).to eq(nil)
+      end
+    end
   end
 
   describe '#from_hash' do
@@ -284,6 +299,5 @@ RSpec.describe HashKit::Helper do
         expect(obj.entity_array[1]).to be_a(TestEntity)
       end
     end
-
   end
 end
