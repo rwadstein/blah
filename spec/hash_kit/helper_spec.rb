@@ -181,6 +181,30 @@ RSpec.describe HashKit::Helper do
      end
     end
 
+    [
+      "string"    ,  
+      101         ,
+      1.01        ,
+      Time.now    ,
+      Date.today  ,
+      DateTime.now,
+      nil         ,
+      true        ,
+      false
+    ].each do |value|
+      context "when text is set to '#{value}'" do
+        let(:child_entity) do
+          TestEntity.new.tap do |entity|
+            entity.text = value
+          end
+        end
+
+        it 'creates a hash with the expected value' do
+          hash = subject.to_hash(child_entity)
+          expect(hash[:text]).to eq(value)
+        end
+      end
+    end
 
     context 'when one value is nil' do
       let(:child_entity) do

@@ -71,13 +71,21 @@ module HashKit
       new_array
     end
 
+    def standard_type?(obj)
+      [
+        String, Fixnum, Numeric, Float, Date, DateTime, Time, Integer, TrueClass, FalseClass, NilClass
+      ].detect do |klass|
+        obj.is_a?(klass)
+      end
+    end
+
     # nodoc
     def deeply_to_hash(val)
       if val.is_a?(Hash)
         return convert_hash_values(val)
       elsif val.is_a?(Array)
         return convert_array_values(val)
-      elsif [String, Fixnum, Numeric, Date, DateTime, Time, Integer, TrueClass, FalseClass, NilClass].include?(val.class)
+      elsif standard_type?(val)
         val
       else
         return to_hash(val)
