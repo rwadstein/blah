@@ -18,7 +18,7 @@ module HashKit
     # Convert an object to a hash representation of its instance variables.
     # @return [Hash] if the object is not nil, otherwise nil is returned.
     def to_hash(obj)
-      return nil unless obj
+      return nil if obj.nil?
 
       hash = {}
       obj.instance_variables.each do |key|
